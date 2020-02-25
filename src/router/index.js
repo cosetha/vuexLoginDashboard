@@ -1,7 +1,8 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
-
+import Secure from '../views/Secure.vue'
+import Login from '../views/Login.vue'
 Vue.use(VueRouter)
 
 const routes = [
@@ -9,6 +10,23 @@ const routes = [
     path: '/',
     name: 'Home',
     component: Home
+  },
+  {
+    path: '/secure',
+    name: 'Secure',
+    component: Secure,
+    beforeEach:(to,from,next)=>{
+      if(this.$store.state.isLoggedIn == false){
+        next("/Login")
+      }else{
+        next();
+      }
+    }
+  },
+  {
+    path: '/Login',
+    name: 'Login',
+    component: Login
   },
   {
     path: '/about',
@@ -25,5 +43,4 @@ const router = new VueRouter({
   base: process.env.BASE_URL,
   routes
 })
-
 export default router
